@@ -2,7 +2,7 @@
 
 Evenir is a Vite + React + TypeScript application that showcases how the team manages both sides of an event-services marketplace:
 
-- **Clients** describe their event once, search vendors, and receive concierge suggestions backed by Gemini models.
+- **Clients** describe their event once, search vendors, and receive concierge suggestions powered by intelligent rule-based matching.
 - **Vendors** submit structured profiles and go through a three-step onboarding flow before receiving briefs.
 
 The UI is split into separate flows (home, find vendor, join vendor) so the product feels like an opinionated marketplace rather than a generic chat demo.
@@ -11,7 +11,8 @@ The UI is split into separate flows (home, find vendor, join vendor) so the prod
 - Vite, React 19, TypeScript
 - Tailwind via CDN for rapid styling
 - Lightweight in-app router (replacement for react-router-dom while offline)
-- Gemini client (`@google/genai`) wrapped by `aiConciergeService.ts`
+- LocalStorage for data persistence
+- Rule-based AI concierge service (no external API dependencies)
 
 ## Project structure
 ```
@@ -29,25 +30,22 @@ src/
 ```
 
 ## Getting started
-1. Install dependencies (already vendored in `node_modules`):
+1. Install dependencies:
    ```bash
    npm install
    ```
-2. Copy the example environment file and provide a Gemini API key (optional—fallback data is used if absent):
-   ```bash
-   cp .env.example .env.local
-   # edit .env.local and set GEMINI_API_KEY=your-key
-   ```
-3. Run the development server:
+2. Run the development server:
    ```bash
    npm run dev
    ```
-4. Open http://localhost:3000 and explore the different flows.
+3. Open http://localhost:3000 and explore the different flows.
 
-## Environment variables
-| Name | Description |
-| --- | --- |
-| `GEMINI_API_KEY` | Used by `aiConciergeService.ts` to generate real concierge suggestions. Optional—mock data is used when unset. |
+## Features
+- **No external API dependencies** - Works completely offline
+- **LocalStorage persistence** - Your requests and signups are saved locally
+- **Form validation** - Comprehensive validation with helpful error messages
+- **Error boundaries** - Graceful error handling throughout the app
+- **Responsive design** - Works on all device sizes
 
 ## Scripts
 | Command | Description |
@@ -60,5 +58,16 @@ src/
 ## Linting & formatting
 The repo ships with a basic ESLint configuration (`eslint.config.js`). Prettier formatting rules follow the default Tailwind-friendly spacing via editor integrations.
 
-## Where to configure the AI concierge
-All Gemini prompt/response logic lives in [`src/services/aiConciergeService.ts`](src/services/aiConciergeService.ts). The UI (`AiConciergeSection.tsx`) simply calls the service, making it easy to swap the implementation for future backend APIs.
+## Project structure details
+- **Services** (`src/services/`) - Business logic for vendors, requests, and AI concierge
+- **Components** (`src/components/`) - Reusable UI components organized by feature
+- **Types** (`src/types/`) - TypeScript type definitions
+- **Lib** (`src/lib/`) - Utilities including router, validation, storage, and constants
+- **Storage** - All data persists in browser localStorage (no backend required)
+
+## Data persistence
+The app uses localStorage to persist:
+- Event requests (last 50 requests)
+- Vendor signups (last 100 signups)
+
+Data is automatically saved when you submit forms and persists across browser sessions.

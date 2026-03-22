@@ -26,14 +26,25 @@ const FindVendorPage: React.FC = () => {
       category: filters.category === 'ALL' ? undefined : filters.category,
       query: filters.query,
       location: filters.location
-    }).then(result => {
-      setVendors(result);
-      setIsLoading(false);
-    });
+    })
+      .then(result => {
+        setVendors(result);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error('Error searching vendors:', error);
+        setVendors([]);
+        setIsLoading(false);
+      });
   }, [filters]);
 
   useEffect(() => {
-    getRecentRequests().then(setRecentRequests);
+    getRecentRequests()
+      .then(setRecentRequests)
+      .catch(error => {
+        console.error('Error loading recent requests:', error);
+        setRecentRequests([]);
+      });
   }, []);
 
   const handleRequestSuccess = (request: EventRequest) => {

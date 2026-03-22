@@ -46,8 +46,10 @@ const AiConciergeSection: React.FC = () => {
       const recommended = await getRecommendedVendorsByCategories(categories);
       setVendors(recommended);
     } catch (err) {
-      console.error(err);
+      console.error('Error generating concierge suggestions:', err);
       setError('Something went wrong. Please try again.');
+      setSuggestions([]);
+      setVendors([]);
     } finally {
       setIsLoading(false);
     }

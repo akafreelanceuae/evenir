@@ -1,5 +1,6 @@
 import type { Vendor } from '../types/vendor';
 import type { VendorCategory } from '../types/concierge';
+import { DELAY_MS } from '../lib/constants';
 
 const mockVendors: Vendor[] = [
   {
@@ -81,7 +82,7 @@ export async function getRecommendedVendorsByCategories(
   categories: VendorCategory[],
   limitPerCategory = 2
 ): Promise<Vendor[]> {
-  await delay(150);
+  await delay(DELAY_MS.MEDIUM);
 
   if (!categories.length) {
     return mockVendors.slice(0, 3);
@@ -102,7 +103,7 @@ export async function getRecommendedVendorsByCategories(
 }
 
 export async function searchVendors(filters: VendorSearchFilters = {}): Promise<Vendor[]> {
-  await delay(200);
+  await delay(DELAY_MS.LONG);
   const normalizedQuery = filters.query?.toLowerCase() ?? '';
   const normalizedLocation = filters.location?.toLowerCase() ?? '';
 
@@ -124,11 +125,11 @@ export async function searchVendors(filters: VendorSearchFilters = {}): Promise<
 }
 
 export async function getFeaturedVendors(): Promise<Vendor[]> {
-  await delay(150);
+  await delay(DELAY_MS.MEDIUM);
   return mockVendors.slice(0, 3);
 }
 
 export async function getVendorById(id: string): Promise<Vendor | undefined> {
-  await delay(150);
+  await delay(DELAY_MS.MEDIUM);
   return mockVendors.find(vendor => vendor.id === id);
 }

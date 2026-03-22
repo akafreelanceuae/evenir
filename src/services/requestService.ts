@@ -1,19 +1,21 @@
 import type { EventRequest } from '../types';
+import { DELAY_MS } from '../lib/constants';
+import { eventRequestStorage } from '../lib/storage';
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-const requestLog: EventRequest[] = [];
 
 export async function createEventRequest(payload: Omit<EventRequest, 'id'>): Promise<EventRequest> {
-  await delay(300);
+  await delay(DELAY_MS.EXTRA_LONG);
   const request: EventRequest = {
     id: typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : `req-${Date.now()}`,
     ...payload
   };
-  requestLog.unshift(request);
+  eventRequestStorage.add(request);
   return request;
 }
 
 export async function getRecentRequests(): Promise<EventRequest[]> {
-  await delay(120);
-  return requestLog.slice(0, 5);
+  await delay(DELAY_MS.SHORT);
+  const allRequests = eventRequestStorage.getAll();
+  return allRequests.slice(0, 5);
 }

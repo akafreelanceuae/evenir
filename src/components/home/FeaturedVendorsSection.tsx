@@ -7,7 +7,12 @@ const FeaturedVendorsSection: React.FC = () => {
   const [vendors, setVendors] = useState<Vendor[]>([]);
 
   useEffect(() => {
-    getFeaturedVendors().then(setVendors);
+    getFeaturedVendors()
+      .then(setVendors)
+      .catch(error => {
+        console.error('Error loading featured vendors:', error);
+        setVendors([]);
+      });
   }, []);
 
   return (

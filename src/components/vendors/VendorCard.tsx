@@ -20,58 +20,38 @@ export const VendorCard: React.FC<VendorCardProps> = ({ vendor }) => {
   } = vendor;
 
   return (
-    <div
-      className="vendor-card"
-      style={{
-        borderRadius: '12px',
-        border: '1px solid #e5e7eb',
-        overflow: 'hidden',
-        backgroundColor: '#ffffff',
-        display: 'flex',
-        flexDirection: 'column'
-      }}
-    >
-      <div style={{ position: 'relative', height: 160, overflow: 'hidden' }}>
+    <div className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white">
+      <div className="relative h-40 overflow-hidden">
         <img
           src={stockImageUrl}
           alt={name}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          className="h-full w-full object-cover"
+          loading="lazy"
         />
         {isVerified && (
-          <div
-            style={{
-              position: 'absolute',
-              top: 8,
-              left: 8,
-              backgroundColor: 'rgba(34, 197, 94, 0.9)',
-              color: '#fff',
-              borderRadius: '999px',
-              padding: '4px 10px',
-              fontSize: 12
-            }}
-          >
+          <div className="absolute left-2 top-2 rounded-full bg-green-500/90 px-2.5 py-1 text-xs text-white">
             Verified
           </div>
         )}
       </div>
 
-      <div style={{ padding: '12px 14px', flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
-        <div style={{ fontWeight: 600, fontSize: 14 }}>{name}</div>
+      <div className="flex flex-1 flex-col gap-1.5 p-3">
+        <div className="text-sm font-semibold">{name}</div>
         {companyName && (
-          <div style={{ fontSize: 12, color: '#6b7280' }}>{companyName}</div>
+          <div className="text-xs text-gray-500">{companyName}</div>
         )}
-        <div style={{ fontSize: 12, color: '#6b7280' }}>
+        <div className="text-xs text-gray-500">
           {location} • {categories.join(', ')}
         </div>
-        <div style={{ fontSize: 12, color: '#374151', marginTop: 4 }}>
+        <div className="mt-1 text-xs text-gray-700">
           {shortDescription}
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, alignItems: 'center' }}>
-          <div style={{ fontSize: 12, fontWeight: 500 }}>
+        <div className="mt-2 flex items-center justify-between">
+          <div className="text-xs font-medium">
             {minPriceAED ? `From AED ${minPriceAED}` : 'Pricing on request'}
           </div>
           {rating && (
-            <div style={{ fontSize: 12, color: '#6b7280' }}>
+            <div className="text-xs text-gray-500">
               ⭐ {rating.toFixed(1)} ({ratingCount ?? 0})
             </div>
           )}
